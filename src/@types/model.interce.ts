@@ -26,3 +26,12 @@ export interface UserIf extends Document {
     };
     lastTableId: string;
 }
+
+
+export interface LobbySchemaIf extends Document {
+    amount: number;
+    isBotActive: boolean;
+    mode: string;
+    commission: number;
+    gameType: number;
+}

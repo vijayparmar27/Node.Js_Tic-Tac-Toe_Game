@@ -1,6 +1,7 @@
 import { eventNames } from "process";
 import { EVENTS } from "../../constants";
 import logger from "../../logger";
+import { signupHandler } from "./eventHandler/signupHandler";
 
 export async function requestHandler(
     this: any,
@@ -19,8 +20,8 @@ export async function requestHandler(
         }
 
         if (body.en !== EVENTS.HEART_BEAT) {
-            logger.info("======>>> Event : Unity-Side ==>>", body)
-            logger.info("======>>> Event : Unity-Side ==>>", reqEventName)
+            logger.warn("======>>> Event : Unity-Side ==>>", reqEventName)
+            logger.warn("======>>> Event : Unity-Side ==>>", body)
         }
 
         const data = body;
@@ -29,6 +30,7 @@ export async function requestHandler(
         switch (reqEventName) {
 
             case EVENTS.SIGN_UP:
+                signupHandler(data,socket,ack)
                 break;
 
             default:

@@ -1,6 +1,5 @@
+import { socketConnection } from "../../connection/socket";
 import logger from "../../logger";
-import { BOT } from "../../constants";
-import { socketConnection } from "../../connections/socket";
 
 export class SocketEventSend {
 
@@ -15,10 +14,10 @@ export class SocketEventSend {
             let encData = JSON.stringify(data);
 
             if (typeof socket !== "string" && socket.emit) {
-                socket.emit("res", encData)
+                socket.emit(data.en, encData)
             } else {
                 const socketClient: any = socketConnection.socketClient;
-                socketClient.to(socket).emit("res", encData)
+                socketClient.to(socket).emit(data.en, encData)
             }
         } catch (error) {
             console.log(error)
@@ -44,7 +43,7 @@ export class SocketEventSend {
     }
 
     static async addClientInRoom(socket: any, roomId: any) {
-        if (socket.id !== "FTUE_BOT_ID" && socket.id !== BOT.ID) {
+        if (socket?.id !== "FTUE_BOT_ID") {
             logger.debug("addClientInRoom :: ", roomId)
             return socket.join(roomId)
         } else {
