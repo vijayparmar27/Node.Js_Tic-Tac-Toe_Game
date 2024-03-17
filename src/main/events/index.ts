@@ -2,6 +2,8 @@ import { eventNames } from "process";
 import { EVENTS } from "../../constants";
 import logger from "../../logger";
 import { signupHandler } from "./eventHandler/signupHandler";
+import { lobbyHandler } from "./eventHandler/lobbyHandler";
+import { matchMakeHandler } from "./eventHandler/matchMakeHandler";
 
 export async function requestHandler(
     this: any,
@@ -31,6 +33,12 @@ export async function requestHandler(
 
             case EVENTS.SIGN_UP:
                 signupHandler(data,socket,ack)
+                break;
+            case EVENTS.LOBBY:
+                lobbyHandler(data,socket,ack)
+                break;
+            case EVENTS.MATCH_MAKE:
+                matchMakeHandler(data,socket,ack)
                 break;
 
             default:

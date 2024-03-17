@@ -7,7 +7,7 @@ import logger from "../logger";
 import morgan from "morgan";
 import Config from "../config/config";
 import userRouter from "../routers/user.router"
-
+import lobbyRouter from "../routers/lobby.router"
 
 class ServerConnection {
     private server;
@@ -24,6 +24,7 @@ class ServerConnection {
         this.app.use(express.static(uploadFilePath))
 
         this.app.use("/", userRouter)
+        this.app.use("/", lobbyRouter)
 
         this.app.get("/test", (req:any, res:any, next:any) => {
             res.send(`OK.......`)
