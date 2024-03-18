@@ -28,10 +28,10 @@ export async function tableDefaultData(
             "potValue": bootValue * 2,
             "userIds": [],
             "isTie": false,
-            // "players": [
-            //     {},
-            //     {}
-            // ],
+            "players": [
+                {},
+                {}
+            ],
             "gameBoard": gameBoard,
             "createAt": new Date(),
             "updateAt": new Date()

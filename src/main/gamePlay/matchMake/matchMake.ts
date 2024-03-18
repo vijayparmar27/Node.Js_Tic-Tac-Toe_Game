@@ -10,6 +10,8 @@ import { SocketEventSend } from "../../socket";
 import { addTableIdInQueue } from "../../utils/manageTableQueue";
 import { createDefaultTable, findTableQueue, insertPlayerInTable } from "./common";
 import { Types  } from "mongoose";
+import { MESSAGES } from "../../../constants";
+import BullScheduler from "../../bull";
 
 export async function matchMaking(loobyData: any, socket: any, ack?: Function): Promise<void> {
     try {
@@ -99,17 +101,18 @@ export async function matchMaking(loobyData: any, socket: any, ack?: Function): 
                 }
             );
 
-            // // Send popup
-            // const time = 5;
-            // const popupRes = center_toast_popup_formate("Round start in 0 second", MESSAGES.POPUP.TYPE.MIDDLE_TOAST_POPUP, time);
-            // logger.info("------>> matchMaking :: popup_res ::", popupRes);
-            // await event_send(String(tableId), popupRes);
+            // Send popup
+            const time = 5;
+            const popupRes = centerToastPopupFormat("Round start in 0 second", MESSAGES.ALERT.TYPE.MIDDLE_TOAST_POPUP, time);
+            logger.info("------>> matchMaking :: popup_res ::", popupRes);
+            await SocketEventSend.sendEventToRoom(String(updateTableData["_id"]), popupRes);
 
             // // Start round timer
-            // await RoundTimerStartQueue().round_timer_start_queue({
-            //     "timer": CONSTANT.BULL_TIMER.ROUND_START_TIMER * 1000,
-            //     "tableId": updateTableData["_id"]
-            // });
+            BullScheduler.addJob.roundTimerStartQueue({
+                timer : time * 1000,
+                jobId :  String(updateTableData["_id"]),
+                tableId :  String(updateTableData["_id"])
+            })
         }
     } catch (e) {
         logger.info("======= matchMaking :: ERROR :: ", e);

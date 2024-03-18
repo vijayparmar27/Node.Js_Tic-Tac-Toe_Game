@@ -8,7 +8,7 @@ export async function signupController(request: any, res: any) {
 
         console.log("------ request :: ", request.body);
 
-        if (request.password !== request.confPassword) {
+        if (request.body.password !== request.body.confPassword) {
             return res.json({
                 status: false,
                 message: "Comfirm Password Not Same !",
@@ -19,8 +19,8 @@ export async function signupController(request: any, res: any) {
 
         const query = {
             "$or": [
-                { "userName": request.userName },
-                { "email": request.email },
+                { "userName": request.body.userName },
+                { "email": request.body.email },
             ]
         };
 

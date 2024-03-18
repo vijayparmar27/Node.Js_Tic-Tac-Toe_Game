@@ -6,6 +6,7 @@ import { PlayingTableModel } from '../../../models/playingTable.model';
 import { tablePlayerDefaultData } from '../../defaultData/playerTable.defaultData';
 import { TABLE_STATE } from '../../../constants/tableState';
 import logger from '../../../logger';
+import { Types  } from "mongoose";
 
 export async function findTableQueue(lobbyId: string): Promise<string | null> {
     try {
@@ -42,7 +43,7 @@ export async function createDefaultTable(userId: string, gameType: number, lobby
         console.log(`------- createDefaultTable :: createdTable :: `,createdTable)
 
         const tableData = await new PlayingTableModel(createdTable).save();
-        console.log(`------- createDefaultTable :: tableData :: `,tableData)
+        // console.log(`------- createDefaultTable :: tableData :: `,tableData)
         return tableData.id;
     } catch (exception) {
         logger.error("===== createDefaultTable :: ERROR :: ", exception);
@@ -61,7 +62,7 @@ export async function insertPlayerInTable(
         let count: number = 0;
 
         for (const player of tableData["players"]) {
-            if (Object.keys(player).length === 0) {
+            if (Object.keys(player).length === 1) {
                 index = count;
                 break;
             }
@@ -79,7 +80,7 @@ export async function insertPlayerInTable(
         const updatedData = await mongoService.findOneAndUpdate(
             PlayingTableModel,
             {
-                query: { "_id": tableData["_id"] },
+                query: { "_id": new Types.ObjectId(tableData["_id"]) },
                 updateData: {
                     "$set": {
                         "tableState": TABLE_STATE.WATING_PLAYER,
@@ -91,7 +92,7 @@ export async function insertPlayerInTable(
                     }
                 },
                 updateOptions : {
-                    returnNewDocument: true
+                    returnDocument : "after"
                 }
             }
         );

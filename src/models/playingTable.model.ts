@@ -2,17 +2,17 @@ import { Schema, Document, model } from 'mongoose';
 import { Player, playingTableSchemaIf } from '../@types/model.interce';
 
 const playerSchema = new Schema<Player>({
-    userId: { type: String, required: true },
-    userName: { type: String, required: true },
-    playerState: { type: String, default: "" },
-    seatIndex: { type: Number, required: true },
-    rematch: { type: Boolean, required: true },
-    isTakeTurn: { type: Boolean, required: true },
-    turnMissCount: { type: Number, required: true },
-    symbol: { type: String, required: true },
-    socketId: { type: String, required: true },
-    createAt: { type: Date, required: true },
-    updateAt: { type: Date, required: true }
+    userId: { type: String },
+    userName: { type: String },
+    playerState: { type: String },
+    seatIndex: { type: Number },
+    rematch: { type: Boolean },
+    isTakeTurn: { type: Boolean },
+    turnMissCount: { type: Number },
+    symbol: { type: String },
+    socketId: { type: String },
+    createAt: { type: Date },
+    updateAt: { type: Date }
 });
 
 const playingTableSchema = new Schema<playingTableSchemaIf>({
@@ -33,14 +33,7 @@ const playingTableSchema = new Schema<playingTableSchemaIf>({
     userIds: { type: [String], required: true },
     isTie: { type: Boolean, required: true },
     players: {
-        // type: [playerSchema],
-        // default:[{},{}]
-        type: [{
-            type: playerSchema ,
-            default: {}
-        }
-        ],
-        // default:[{},{}]
+        type: [playerSchema]    
     },
     gameBoard: { type: Schema.Types.Mixed, required: true },
     createAt: { type: Date, required: true },

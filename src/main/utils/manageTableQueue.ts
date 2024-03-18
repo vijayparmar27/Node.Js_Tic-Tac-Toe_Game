@@ -13,7 +13,7 @@ export async function addTableIdInQueue(lobbyId: string, tableId: string): Promi
                     "$push": { "tableIds": tableId } 
                 },
                 updateOptions : {
-                    returnNewDocument: true
+                    returnDocument : "after"
                 }
             }
         );
@@ -34,7 +34,7 @@ export async function removeFromQueue(lobbyId: string, tableId: string): Promise
                     "$pull": { "tableIds": tableId }
                 },
                 updateOptions : {
-                    returnNewDocument: true
+                    returnDocument : "after"
                 }
             }
         );
