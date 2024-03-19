@@ -5,6 +5,7 @@ import logger from '../logger';
 import { redisConnection } from './redis';
 import { MESSAGES, NUMERICAL, SOCKET } from '../constants';
 import { requestHandler } from "../main/events";
+import { disconnectSocket } from "../main/disconnect";
 
 class SocketConnection {
     private socketClientIo: any;
@@ -41,7 +42,7 @@ class SocketConnection {
             // const token = client.handshake.auth.token;
             // const userId = client.handshake.auth.userId; // remove
             // logger.info('connectionCB token : ', token);
-    
+
             client.conn.on(SOCKET.PACKET, (packet: any) => {
 
                 if (packet.type === 'ping') {
@@ -59,8 +60,8 @@ class SocketConnection {
              * disconnect request handler
              */
             client.on(SOCKET.DISCONNECT, async (disconnectReason: any) => {
-                console.log("disconnect...")
-
+                console.log("disconnect... :: disconnectReason :: ", disconnectReason)
+                disconnectSocket(client, disconnectReason);
             })
 
             /**

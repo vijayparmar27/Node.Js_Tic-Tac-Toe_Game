@@ -4,6 +4,9 @@ import logger from "../../logger";
 import { signupHandler } from "./eventHandler/signupHandler";
 import { lobbyHandler } from "./eventHandler/lobbyHandler";
 import { matchMakeHandler } from "./eventHandler/matchMakeHandler";
+import { takeTurnHandler } from "./eventHandler/takeTurnHandler";
+import { leaveTableHandler } from "./eventHandler/leaveTableHandler";
+import { rejoinHandler } from "./eventHandler/rejoinHandler";
 
 export async function requestHandler(
     this: any,
@@ -32,13 +35,22 @@ export async function requestHandler(
         switch (reqEventName) {
 
             case EVENTS.SIGN_UP:
-                signupHandler(data,socket,ack)
+                signupHandler(data, socket, ack)
                 break;
             case EVENTS.LOBBY:
-                lobbyHandler(data,socket,ack)
+                lobbyHandler(data, socket, ack)
                 break;
             case EVENTS.MATCH_MAKE:
-                matchMakeHandler(data,socket,ack)
+                matchMakeHandler(data, socket, ack)
+                break;
+            case EVENTS.TAKE_TURN:
+                takeTurnHandler(data, socket, ack)
+                break;
+            case EVENTS.LEAVE_TABLE:
+                leaveTableHandler(data, socket, ack)
+                break;
+            case EVENTS.REJOIN:
+                rejoinHandler(data, socket, ack)
                 break;
 
             default:

@@ -57,10 +57,14 @@ export class SocketEventSend {
     static async leaveClientInRoom(socket: any, roomId: any) {
         try {
             if (typeof socket != 'undefined' && socket.emit) {
+                socket.tableId = null;
+                socket.seatIndex = null;
                 socket.leave(roomId);
             } else {
                 let socketInstance = await this.getSocketFromSocketId(socket);
                 if (socketInstance && socketInstance.leave) {
+                    socketInstance.tableId = null;
+                    socketInstance.seatIndex = null;
                     socketInstance.leave(roomId)
                 }
             }
