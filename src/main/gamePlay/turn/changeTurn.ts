@@ -24,8 +24,8 @@ export async function changeTurn(currentPlayerUserId: string, currentPlayerSeatI
                 }
             },
             updateOptions: {
-                "array_filters": [{ "element.userId": currentPlayerUserId, "element.isTakeTurn": false }],
-                "return_document": "after"
+                "arrayFilters": [{ "element.userId": currentPlayerUserId, "element.isTakeTurn": false }],
+                "returnDocument": "after"
             }
         }
         );

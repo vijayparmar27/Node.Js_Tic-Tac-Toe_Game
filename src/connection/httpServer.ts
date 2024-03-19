@@ -8,6 +8,7 @@ import morgan from "morgan";
 import Config from "../config/config";
 import userRouter from "../routers/user.router"
 import lobbyRouter from "../routers/lobby.router"
+import cors from "cors";
 
 class ServerConnection {
     private server;
@@ -17,6 +18,7 @@ class ServerConnection {
         const { SSL_CRT_FILE, SSL_KEY_FILE } = Config;
 
         this.app.use(morgan("dev"))
+        this.app.use(cors())
         this.app.use(express.urlencoded({ extended: true }));
 
         this.app.use(express.json());
